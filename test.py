@@ -123,9 +123,9 @@ def generate_derivatives(form_list):
         entry = ""
         
         # Check whether the bot can feasibly/permissibly edit the page. If not, quit.
-        # if bool(page_content.get_sections(matches=r"Bulgarian")):
-        #     print(f"NOTE: page {title} already contains existing Bulgarian entry, exiting")
-        #     continue
+        if bool(page_content.get_sections(matches=r"Bulgarian")):
+            print(f"NOTE: page {title} already contains existing Bulgarian entry, exiting")
+            continue
         if not derivative_page.botMayEdit:
             print(f"ERROR: page {title} disallows bot editing, exiting")
             continue

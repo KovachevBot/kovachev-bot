@@ -1,0 +1,9 @@
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|абаджи́йо}}
+
+===Noun===
+{{head|bg|noun form|head=абаджи́йо}}
+
+# {{inflection of|bg|абаджи́я||voc|s}}

@@ -1,0 +1,9 @@
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|аба́ти}}
+
+===Noun===
+{{head|bg|noun form|head=аба́ти}}
+
+# {{inflection of|bg|аба́т||indef|p|;|voc|p}}

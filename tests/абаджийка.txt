@@ -1,0 +1,32 @@
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|абаджи́йка}}
+
+===Noun===
+{{head|bg|noun form|head=абаджи́йка}}
+
+# {{inflection of|bg|абаджи́йка||indef|s}}
+
+----
+
+==Bulgarian==
+
+===Etymology===
+{{affix|bg|абаджи́я|-ка}}
+
+===Pronunciation===
+* {{bg-IPA|абаджи́йка}}
+* {{audio|bg|Bg-abadzhijka.ogg|Audio}}
+
+===Noun===
+{{bg-noun|абаджи́йка|f|m=абаджи́я}}
+
+# [[female]] [[weaver]] of [[frieze]] (the cloth), [[female]] [[dealer]] in [[frieze]] (the cloth)
+# [[female]] [[tailor]]
+
+====Declension====
+{{bg-ndecl|абаджи́йка<(v)>}}
+
+===Further reading===
+* {{R:bg:RBE}}

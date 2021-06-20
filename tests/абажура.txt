@@ -1,0 +1,34 @@
+==Bulgarian==
+
+===Pronunciation===
+* {{IPA|bg|/ˌabəˈʒuɾə/}}
+
+===Noun===
+{{head|bg|noun form|head=абажу́ра|g=m}}
+
+# {{inflection of|bg|абажу́р||def|objv|s|;|count|form}}
+
+----
+
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|абажу́ра}}
+
+===Noun===
+{{head|bg|noun form|head=абажу́ра}}
+
+# {{inflection of|bg|абажу́р||objv|s|;|count|form}}
+
+----
+
+
+==Russian==
+
+===Pronunciation===
+* {{ru-IPA|абажу́ра}}
+
+===Noun===
+{{ru-noun form|абажу́ра|m-in}}
+
+# {{inflection of|ru|абажу́р||gen|s}}

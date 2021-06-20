@@ -1,0 +1,21 @@
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|аба́зията}}
+
+===Noun===
+{{head|bg|noun form|head=аба́зията}}
+
+# {{inflection of|bg|аба́зия||def|s}}
+
+----
+
+==Bulgarian==
+
+===Pronunciation===
+* {{IPA|bg|/ˌaˈbazijət̪ə/}}
+
+===Noun===
+{{head|bg|noun form|head=аба́зията}}
+
+# {{inflection of|bg|аба́зия||def|s}}

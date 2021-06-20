@@ -1,0 +1,9 @@
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|чове́ци}}
+
+===Noun===
+{{head|bg|noun form|head=чове́ци}}
+
+# {{inflection of|bg|чове́к||indef|p|;|voc|p}}

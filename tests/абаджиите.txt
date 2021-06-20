@@ -1,0 +1,21 @@
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|абаджи́ите}}
+
+===Noun===
+{{head|bg|noun form|head=абаджи́ите}}
+
+# {{inflection of|bg|абаджи́я||def|p}}
+
+----
+
+==Bulgarian==
+
+===Pronunciation===
+* {{IPA|bg|/ˌabəˈdʒi.it̪ɛ/}}
+
+===Noun===
+{{head|bg|noun form|head=абаджи́ите|g=m-p}}
+
+# {{inflection of|bg|абаджи́я||def|p}}

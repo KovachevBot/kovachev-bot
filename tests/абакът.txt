@@ -1,0 +1,21 @@
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|аба́кът}}
+
+===Noun===
+{{head|bg|noun form|head=аба́кът}}
+
+# {{inflection of|bg|аба́к||sbjv|s}}
+
+----
+
+==Bulgarian==
+
+===Pronunciation===
+* {{IPA|bg|/ˌaˈbakət̪/}}
+
+===Noun===
+{{head|bg|noun form|head=аба́кът}}
+
+# {{inflection of|bg|аба́к||def|sbjv|s}}

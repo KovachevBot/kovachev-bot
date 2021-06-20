@@ -1,0 +1,21 @@
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|аби́те}}
+
+===Noun===
+{{head|bg|noun form|head=аби́те}}
+
+# {{inflection of|bg|аба́||def|p}}
+
+----
+
+==Bulgarian==
+
+===Pronunciation===
+* {{IPA|bg|/əˈbit̪ɛ/}}
+
+===Noun===
+{{head|bg|noun form|head=аби́те|g=f-p}}
+
+# {{inflection of|bg|аба́||def|p}}

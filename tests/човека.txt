@@ -1,0 +1,24 @@
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|чове́ка}}
+
+===Noun===
+{{head|bg|noun form|head=чове́ка}}
+
+# {{inflection of|bg|чове́к||objv|s}}
+
+----
+
+==Macedonian==
+
+===Pronunciation===
+* {{mk-IPA}}
+
+===Noun===
+{{head|mk|noun form}}
+
+# {{inflection of|mk|човек||counted|pl}}
+
+=====See also=====
+* {{l|mk|луѓе}}

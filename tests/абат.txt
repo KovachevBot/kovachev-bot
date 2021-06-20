@@ -1,0 +1,70 @@
+==Belarusian==
+{{wikipedia|lang=be}}
+
+===Etymology===
+From {{der|be|it|abbate}}, from {{der|be|la|abbas||father}}, from {{der|be|grc|ἀββᾶς}}, from {{der|be|arc|אבא||father|tr=’abbā|sc=Hebr}}.
+
+===Pronunciation===
+* {{be-IPA|аба́т}}
+
+===Noun===
+{{be-noun|аба́т<pr>}}
+
+# [[abbot]]
+
+====Declension====
+{{be-ndecl|аба́т<pr>}}
+
+----
+
+==Bulgarian==
+
+===Noun===
+{{bg-noun|аба́т|m}}
+
+# {{lb|bg|rare}} [[abbot]]
+
+====Declension====
+{{bg-ndecl|аба́т<(h)>}}
+
+----
+
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|аба́т}}
+
+===Noun===
+{{head|bg|noun form|head=аба́т}}
+
+# {{inflection of|bg|аба́т||indef|s}}
+
+----
+
+
+==Chechen==
+
+===Noun===
+{{ce-noun||cd}}
+
+# [[alphabet]]
+# abc-book
+# primer, [[book]] to [[learn]] a [[language]]
+
+----
+
+==Ukrainian==
+
+===Pronunciation===
+* {{uk-IPA|аба́т}}
+
+===Noun===
+{{uk-noun|аба́т<pr>}}
+
+# [[abbot]] {{gloss|superior or head of an abbey or monastery}}
+
+====Declension====
+{{uk-ndecl|аба́т<pr>}}
+
+===References===
+* {{R:uk:SUM-11}}

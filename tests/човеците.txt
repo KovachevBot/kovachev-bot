@@ -1,9 +1,0 @@
-==Bulgarian==
-
-===Pronunciation===
-* {{bg-IPA|чове́ците}}
-
-===Noun===
-{{head|bg|noun form|head=чове́ците}}
-
-# {{inflection of|bg|чове́к||def|p}}

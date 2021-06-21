@@ -1,9 +1,0 @@
-==Bulgarian==
-
-===Pronunciation===
-* {{bg-IPA|лю́дете}}
-
-===Noun===
-{{head|bg|noun form|head=лю́дете}}
-
-# {{inflection of|bg|чове́к||def|p}}

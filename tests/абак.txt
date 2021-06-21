@@ -1,0 +1,129 @@
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|аба́к}}
+
+===Noun===
+{{bg-noun|аба́к|m}}
+
+# {{lb|bg|architecture}} [[abacus]]
+
+====Declension====
+{{bg-ndecl|аба́к<>}}
+
+----
+
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|аба́к}}
+
+===Noun===
+{{head|bg|noun form|head=аба́к}}
+
+# {{inflection of|bg|аба́к||indef|s}}
+
+----
+
+==Kazakh==
+{{kk-regional|абак|اباك}}
+{{wikipedia|lang=kk}}
+
+===Etymology===
+Borrowed from {{bor|kk|ru|аба́к}}, from {{der|kk|fr|abaque}}, from {{der|kk|la|abacus}}; from {{der|kk|grc|ἄβαξ||board covered with sand}}.
+
+===Pronunciation===
+* {{IPA|kk|[ɐˈbak]}}
+
+===Noun===
+{{kk-noun}}
+
+# [[abacus]]
+
+====Declension====
+{{kk-noun-c|а|қ}}
+
+----
+
+==Russian==
+
+===Pronunciation===
+* {{ru-IPA|аба́к}}
+* {{audio|ru|Ru-{{PAGENAME}}.ogg|Audio}}
+
+===Etymology 1===
+Probably borrowed through {{der|ru|fr|abaque}}. See {{m|ru|абака}}.
+
+====Alternative forms====
+* {{l|ru|абака}} {{qualifier|uppermost member of column}}
+
+====Noun====
+{{ru-noun+|аба́к}}
+
+# [[abacus]] {{gloss|board for doing calculations}}
+# [[abacus]] {{gloss|uppermost member of a column}}
+
+=====Declension=====
+{{ru-noun-table|аба́к}}
+
+=====Synonyms=====
+* {{sense|board}} {{l|ru|счёты}}, {{l|ru|счётная доска́}}
+* {{sense|member of column}} {{l|ru|аба́ка}}, {{l|ru|плита́}}
+
+=====Descendants=====
+* {{desc|kk|абак|bor=1}}
+
+=====Further reading=====
+* {{R:ru:BTS}}
+
+===Etymology 2===
+
+====Noun====
+{{ru-noun form|аба́к|f-in-p}}
+
+# {{inflection of|ru|аба́ка||gen|p}}
+
+----
+
+==Serbo-Croatian==
+
+===Alternative forms===
+* {{l|sh|sc=Cyrl|а̀бакус}}
+
+===Pronunciation===
+* {{IPA|sh|/ǎbak/}}
+* {{hyphenation|sh|а|бак}}
+
+===Noun===
+{{sh-noun|g=m|head=а̀бак}}
+
+# [[abacus]]
+
+====Declension====
+{{sh-decl-noun|sc=Cyrl
+|абак|абаци
+|абака|абака
+|абаку|абацима
+|абак|абаке
+|абаче|абаци
+|абаку|абацима
+|абаком|абацима
+}}
+
+----
+
+==Ukrainian==
+
+===Pronunciation===
+* {{uk-IPA|аба́к}}
+
+===Noun===
+{{uk-noun|аба́к<>}}
+
+# {{lb|uk|architecture}} [[abacus]]
+
+====Declension====
+{{uk-ndecl|аба́к<>}}
+
+===References===
+* {{R:uk:SUM-11}}

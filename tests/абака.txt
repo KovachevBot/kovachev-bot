@@ -1,0 +1,106 @@
+{{also|Абака}}
+
+==Bulgarian==
+
+===Pronunciation===
+* {{IPA|bg|/ˌaˈbakə/}}
+
+===Noun===
+{{head|bg|noun form|head=аба́ка|g=m}}
+
+# {{inflection of|bg|аба́к||def|objv|s|;|count|form}}
+
+----
+
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|аба́ка}}
+
+===Noun===
+{{head|bg|noun form|head=аба́ка}}
+
+# {{inflection of|bg|аба́к||objv|s|;|count|form}}
+
+----
+
+==Russian==
+
+===Etymology 1===
+Ultimately from {{der|ru|grc|ἄβαξ||board for drawing, calculating}}.
+
+{{m|ru||Аба́ка}}, in its culinary sense, originally referred to a [[perforated]] board for holding cups (compare [[cupboard]], from [[cup]] + [[board]]).
+
+====Alternative forms====
+* {{alter|ru|аба́к}} {{qualifier|uppermost member of column}}
+
+====Pronunciation====
+* {{ru-IPA|аба́ка}}
+
+====Noun====
+{{ru-noun+|аба́ка}}
+
+# {{lb|ru|architecture}} [[abacus]] {{gloss|uppermost member of the capital of a column}}
+# {{lb|ru|culinary}} [[abacus]] {{gloss|cupboard for holding cups, bottles, etc.}}
+
+=====Declension=====
+{{ru-noun-table|аба́ка}}
+
+=====Synonyms=====
+* {{sense|uppermost member of the capital}} {{l|ru|аба́к}}, {{l|ru|плита́}}
+* {{sense|cupboard}} {{l|ru|буфе́т}}, {{l|ru|шкаф}}
+
+=====Related terms=====
+* {{l|ru|абацист}}, {{l|ru|абацисса}}
+
+====References====
+* {{R:ru:Anikin|vol=I|page=65}}
+
+===Etymology 2===
+Ultimately from {{der|ru|tl|abaka|abaká}}. Compare {{cog|es|abacá}}.
+
+====Pronunciation====
+* {{ru-IPA|абака́}}
+
+====Noun====
+{{ru-noun+|абака́|n=sg}}
+
+# [[abaca]], [[Manila hemp]]
+
+=====Declension=====
+{{ru-noun-table|абака́|n=sg}}
+
+=====Synonyms=====
+* {{l|ru|манильская пенька́}}
+* {{l|ru|тексти́льный бана́н}}
+
+===Etymology 3===
+
+====Pronunciation====
+* {{ru-IPA|аба́ка}}
+
+====Noun====
+{{ru-noun form|аба́ка|m-in}}
+
+# {{inflection of|ru|аба́к||gen|s}}
+
+===Further reading===
+* {{R:ru:BTS}}
+
+----
+
+==Ukrainian==
+
+===Pronunciation===
+* {{uk-IPA|аба́ка}}
+
+===Noun===
+{{uk-noun|аба́ка<>}}
+
+# {{lb|uk|architecture}} [[abacus]]
+
+====Declension====
+{{uk-ndecl|аба́ка<>}}
+
+===References===
+* {{R:uk:SUM-11}}

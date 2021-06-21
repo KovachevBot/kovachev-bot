@@ -1,0 +1,30 @@
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|абано́с}}
+
+===Noun===
+{{head|bg|noun form|head=абано́с}}
+
+# {{inflection of|bg|абано́с||indef|s}}
+
+----
+
+==Bulgarian==
+
+===Etymology===
+From {{bor|bg|ota|آبانوز}} (modern {{bor|bg|tr|abanoz}}), from {{bor|tr|ar|أبنوس|tr=ʾabanūs}}; compare {{cog|egy|hbnj}}, {{cog|grc|ἔβενος}}, {{cog|la|hebenus|alt=(h)ebenus}}, etc.
+
+===Pronunciation===
+* {{bg-IPA|абано́с}}
+* {{audio|bg|Bg-абанос.oga|audio}}
+
+===Noun===
+{{bg-noun|абано́с|m|adj=абано́сов}}
+
+# {{lb|bg|uncountable}} [[ebony]]
+
+====Declension====
+{{bg-ndecl|абано́с</n:sg>}}
+
+{{C|bg|Ericales order plants|Woods}}

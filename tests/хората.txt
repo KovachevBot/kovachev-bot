@@ -1,0 +1,9 @@
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|хо́рата}}
+
+===Noun===
+{{head|bg|noun form|head=хо́рата}}
+
+# {{inflection of|bg|чове́к||def|p}}

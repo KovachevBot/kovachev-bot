@@ -1,0 +1,21 @@
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|абаджи́йката}}
+
+===Noun===
+{{head|bg|noun form|head=абаджи́йката}}
+
+# {{inflection of|bg|абаджи́йка||def|s}}
+
+----
+
+==Bulgarian==
+
+===Pronunciation===
+* {{IPA|bg|/ˌabəˈd̪ʒijkət̪ə/}}
+
+===Noun===
+{{head|bg|noun form|head=абаджи́йката}}
+
+# {{inflection of|bg|абаджи́йка||def|s}}

@@ -1,0 +1,21 @@
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|аба́ците}}
+
+===Noun===
+{{head|bg|noun form|head=аба́ците}}
+
+# {{inflection of|bg|аба́к||def|p}}
+
+----
+
+==Bulgarian==
+
+===Pronunciation===
+* {{IPA|bg|/ˌaˈbat͡sit̪ɛ/}}
+
+===Noun===
+{{head|bg|noun form|head=аба́ците|g=m-p}}
+
+# {{inflection of|bg|аба́к||def|p}}

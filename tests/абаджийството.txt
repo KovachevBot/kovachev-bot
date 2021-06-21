@@ -1,0 +1,21 @@
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|абаджи́йството}}
+
+===Noun===
+{{head|bg|noun form|head=абаджи́йството}}
+
+# {{inflection of|bg|абаджи́йство||def|s}}
+
+----
+
+==Bulgarian==
+
+===Pronunciation===
+* {{IPA|bg|/ˌabəˈd̪ʒijst̪vot̪o/}}
+
+===Noun===
+{{head|bg|noun form|head=абаджи́йството}}
+
+# {{inflection of|bg|абаджи́йство||def|s}}

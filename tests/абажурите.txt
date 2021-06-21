@@ -1,0 +1,21 @@
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|абажу́рите}}
+
+===Noun===
+{{head|bg|noun form|head=абажу́рите}}
+
+# {{inflection of|bg|абажу́р||def|p}}
+
+----
+
+==Bulgarian==
+
+===Pronunciation===
+* {{IPA|bg|/ˌabəˈʒuɾit̪ɛ/}}
+
+===Noun===
+{{head|bg|noun form|head=абажу́рите|g=m-p}}
+
+# {{inflection of|bg|абажу́р||def|p}}

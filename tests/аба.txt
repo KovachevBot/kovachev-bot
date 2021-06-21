@@ -1,0 +1,228 @@
+{{also|Appendix:Variations of "aba"}}
+==Abaza==
+
+===Noun===
+{{head|abq|noun}}
+
+# [[father]]
+
+----
+
+==Abkhaz==
+
+===Adjective===
+{{head|ab|adjective|head=а-ба́|sort=ба}}
+
+# [[dry]]
+
+====Synonyms====
+* {{l|ab|аҩа|а-ҩа́}}
+
+----
+
+==Bulgarian==
+
+===Etymology===
+Borrowed from {{bor|bg|ota|عبا|tr={{l|tr|aba}}}}, from {{der|bg|ar|عَبَاءَة}}.
+
+===Pronunciation===
+* {{bg-IPA|аба́}}
+
+===Noun===
+{{bg-noun|аба́|f}}
+
+# [[frieze]], [[homespun]], [[coarse]] [[woollen]] [[cloth]]
+# [[cloak]]
+
+====Declension====
+{{bg-ndecl|аба́<>}}
+
+===Further reading===
+* {{R:bg:RBE}}
+
+----
+
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|аба́}}
+
+===Noun===
+{{head|bg|noun form|head=аба́}}
+
+# {{inflection of|bg|аба́||indef|s}}
+
+----
+
+==Kazakh==
+{{kk-regional|аба|ابا}}
+
+===Etymology 1===
+
+===Noun===
+{{kk-noun}}
+
+# [[corral]]
+# [[bark]]
+
+===Etymology 2===
+From {{der|kk|ar|عَبَاءَة}}.
+
+===Noun===
+{{kk-noun}}
+
+# [[cape]]
+
+====Declension====
+{{kk-noun-c|а|а}}
+
+[[Category:kk:Clothing]]
+
+----
+
+==Khakas==
+
+===Noun===
+{{kjh-noun|tr=aba}}
+
+# [[bear]] {{gloss|mammal}}
+
+====Declension====
+{{kjh-decl-noun|h|vw}}
+
+[[Category:kjh:Mammals]]
+
+----
+
+==Kyrgyz==
+
+===Noun===
+{{ky-noun}}
+
+# [[air]]
+
+====Declension====
+{{ky-decl-noun}}
+
+----
+
+==Macedonian==
+
+===Pronunciation===
+* {{mk-IPA}}
+
+===Noun===
+{{mk-noun|f}}
+
+#[[abaya]] (woollen cloth, top (cloth))
+
+====Declension====
+{{mk-decl-noun-m||аб}}
+
+=== References ===
+* [http://www.makedonski.info/#%D0%B0%D0%B1%D0%B0/%D0%B6 „Аба“], Macedonian Dictionary
+
+----
+
+==Russian==
+{{wikipedia|lang=ru}}
+
+===Etymology 1===
+Borrowed from {{bor|ru|ota|عبا|sc=ota-Arab|tr=abâ}} ({{der|ru|tr|aba}}), from {{der|ru|ar|عَبَاءَة}}.
+
+====Alternative forms====
+* {{l|ru|абба́}}
+* {{l|ru|габа́}}
+
+====Pronunciation====
+* {{ru-IPA|аба́}}
+
+====Noun====
+{{ru-noun+|аба́|n=sg}}
+
+# [[aba]], a coarse woven cloth
+# a cloak-like garment made from [[aba]]
+
+=====Declension=====
+{{ru-noun-table|аба́|n=sg}}
+
+=====Derived terms=====
+* {{l|ru|абиный}}
+
+=====See also=====
+* {{l|ru|сукно́}}, {{l|ru|ткань}}
+* {{l|ru|наки́дка}}, {{l|ru|плащ}}
+
+====References====
+* {{R:ru:Vasmer}}
+
+===Etymology 2===
+Limited spread suggests {{der|ru|ba|аба||expression of surprise, indignation}}, {{der|ru|cv|апа||expression of surprise, indignation}}.
+
+====Alternative forms====
+* {{m|ru|абба́}}
+
+====Pronunciation====
+* {{ru-IPA|аба́}}
+
+====Interjection====
+{{head|ru|interjection|head=аба́}}
+
+# {{lb|ru|dialectal|Ural}} [[well, I never|Well, I never]]! (expression of surprise)
+
+=====Synonyms=====
+* {{l|ru|неуже́ли}}
+
+===Etymology 3===
+From dialectal {{der|ru|tt|аба}}. According to Anikin, ultimately from {{der|ru|trk-pro|*aba||father, bear}}, {{der|ru|xgn-pro|*aba||father}} > {{der|ru|mn|ав}}. See also {{m|ru|а́ва}}, {{m|ru|апа}}.
+
+Also compare {{cog|orv|абба}}.
+
+====Pronunciation====
+* {{ru-IPA|а́ба}}
+
+====Noun====
+{{ru-noun+|а́ба|a=a}}
+
+# {{lb|ru|dialectal|Omsk}} elder [[sister]]
+# {{lb|ru|dialectal|Omsk}} father's sister
+
+=====Declension=====
+{{ru-noun-table|а́ба|a=a}}
+
+=====References=====
+* {{R:ru:Anikin|vol=I|pages=61}}
+
+----
+
+==Serbo-Croatian==
+
+===Etymology===
+Borrowed from {{bor|sh|ota|عبا|tr=abâ}} ({{cog|tr|aba}}), from {{der|sh|ar|عَبَاءَة}}.
+
+===Noun===
+{{sh-noun|g=f}}
+
+# [[aba]]
+
+----
+
+==Tatar==
+{{tt-variant|z=aba}}
+
+===Noun===
+{{head|tt|noun}}
+
+# {{lb|tt|dialectal}} [[father]]
+
+====Declension====
+{{tt-cyrl-decl|а}}
+
+----
+
+==Tofa==
+
+===Noun===
+{{kim-noun|tr=aba}}
+
+# [[mother]]

@@ -1,0 +1,21 @@
+==Bulgarian==
+
+===Pronunciation===
+* {{bg-IPA|абано́са}}
+
+===Noun===
+{{head|bg|noun form|head=абано́са}}
+
+# {{inflection of|bg|абано́с||objv|s}}
+
+----
+
+==Bulgarian==
+
+===Pronunciation===
+* {{IPA|bg|/əbəˈnɔsə/}}
+
+===Noun===
+{{head|bg|noun form|head=абано́са}}
+
+# {{inflection of|bg|абано́с||def|objv|s}}

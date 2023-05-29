@@ -1,12 +1,13 @@
 from typing import Generator
 import pywikibot
 import regex as re
+import os
 
 
 JA_YOMI_TRACKING_PAGE = "tracking/ja-pron/yomi"
 REMOVE_YOMI_PATTERN = re.compile(r"({{ja-pron(?:\|[^\|]+?=[^\|]+?|\|[^\|]+)*?)\|(?:y|yomi)=(?:o|on|go|goon|ko|kan|kanon|so|soon|to|toon|ky|kanyo|kanyoon|k|kun|j|ju|y|yu|i|irr|irreg|irregular)((?:\|[^\|]+?=[^\|]+?|\|[^\|]+)*}})")
 JA_PRON_PATTERN = re.compile(r"{{ja-pron(?:\|[^\|]+?=[^\|]+?|\|[^\|]+)*}}")
-
+BACKUP_PATH = "ja-yomi-backup"
 
 def get_yomi_pages() -> Generator[pywikibot.Page, None, None]:
     SITE = pywikibot.Site("en", "wiktionary")
@@ -28,6 +29,16 @@ def remove_yomi_from_page(page: pywikibot.Page) -> None:
     text = page.text
     new_text = REMOVE_YOMI_PATTERN.sub(r"\1\2", text)
     page.text = new_text
+
+
+def backup_page(page: pywikibot.Page) -> None:
+    """
+    Copy the contents of the page to local storage for backup in case there is a problem
+    with the script later; this will allow the error to be automatically corrected at that time.
+    """
+    os.makedirs(BACKUP_PATH, exist_ok=True)
+    with open(os.path.join(BACKUP_PATH, page.title()), mode="w", encoding="utf-8") as f:
+        f.write(page.text)
 
 
 def template_argument_counts_accord(previous_text: str, current_text: str) -> bool:
@@ -62,10 +73,12 @@ def main():
             return
 
         original_text = page.text
-        print(f"Removing yomi from {page.title()}")
+        print(f"Backing up {page.title()}...")
+        backup_page(page)
+        print(f"Removing yomi from {page.title()}...")
         remove_yomi_from_page(page)
         assert template_argument_counts_accord(original_text, page.text)
-        page.save("Removed deprecated yomi/y parameters from {{ja-pron}} (automated task)", minor=True)
+        page.save("Removed deprecated yomi/y parameters from {{ja-pron}} (automated task)", minor=True, botflag=True)
 
 
 if __name__ == "__main__":

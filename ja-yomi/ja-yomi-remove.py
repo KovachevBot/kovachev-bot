@@ -4,7 +4,6 @@ import regex as re
 
 
 JA_YOMI_TRACKING_PAGE = "tracking/ja-pron/yomi"
-# YOMIS = "(?:o|on|go|goon|ko|kan|kanon|so|soon|to|toon|ky|kanyo|kanyoon|k|kun|j|ju|y|yu|i|irr|irreg|irregular)"
 REMOVE_YOMI_PATTERN = re.compile(r"({{ja-pron(?:\|[^\|]+?=[^\|]+?|\|[^\|]+)*?)\|(?:y|yomi)=(?:o|on|go|goon|ko|kan|kanon|so|soon|to|toon|ky|kanyo|kanyoon|k|kun|j|ju|y|yu|i|irr|irreg|irregular)((?:\|[^\|]+?=[^\|]+?|\|[^\|]+)*}})")
 JA_PRON_PATTERN = re.compile(r"{{ja-pron(?:\|[^\|]+?=[^\|]+?|\|[^\|]+)*}}")
 
@@ -16,6 +15,11 @@ def get_yomi_pages() -> Generator[pywikibot.Page, None, None]:
     return pywikibot.Page(SITE, JA_YOMI_TRACKING_PAGE, ns=TEMPLATE_NAMESPACE).getReferences(only_template_inclusion=True, namespaces=[MAIN_NAMESPACE])
 
 
+# The way the pattern works is by forming two capture groups, one on either side of the regex matching for the yomi
+# parameter, e.g. ({{ja-pron)  |yomi=k  (|おんせい}})
+# (the yomi is separated here for demonstration purposes, otherwise it is contiguous with the other parameters.)
+# The two bracketed text portions you see then substitute the original template, in effect replacing it
+# with all of its contents, minus the original yomi (or y) argument.
 def remove_yomi_from_page(page: pywikibot.Page) -> None:
     """
     Given a page on en.wiktionary, it removes any occurrences of `|y=` or `|yomi=`
@@ -46,9 +50,17 @@ def template_argument_counts_accord(previous_text: str, current_text: str) -> bo
     return True
 
 def main():
-    for i, page in enumerate(get_yomi_pages()):
-        if i == 1:
+    # Get the maximum number of edits to make from the user (e.g. `pwb ja-yomi-remove 100`);
+    # if not found then set to unlimited (-1)
+    try:
+        LIMIT = int(pywikibot.argvu[1])
+    except:
+        LIMIT = -1
+
+    for edit_count, page in enumerate(get_yomi_pages()):
+        if edit_count == LIMIT:
             return
+
         original_text = page.text
         print(f"Removing yomi from {page.title()}")
         remove_yomi_from_page(page)

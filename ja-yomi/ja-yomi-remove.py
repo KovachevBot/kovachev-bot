@@ -1,13 +1,13 @@
 from typing import Generator
 import pywikibot
-import regex as re
 import os
+import subprocess
+import mwparserfromhell
+from mwparserfromhell.wikicode import Template
+from restore_pages import BACKUP_PATH
 
 
 JA_YOMI_TRACKING_PAGE = "tracking/ja-pron/yomi"
-REMOVE_YOMI_PATTERN = re.compile(r"({{ja-pron(?:\|[^\|]+?=[^\|]+?|\|[^\|]+)*?)\|(?:y|yomi)=(?:o|on|go|goon|ko|kan|kanon|so|soon|to|toon|ky|kanyo|kanyoon|k|kun|j|ju|y|yu|i|irr|irreg|irregular)((?:\|[^\|]+?=[^\|]+?|\|[^\|]+)*}})")
-JA_PRON_PATTERN = re.compile(r"{{ja-pron(?:\|[^\|]+?=[^\|]+?|\|[^\|]+)*}}")
-BACKUP_PATH = "ja-yomi-backup"
 
 def get_yomi_pages() -> Generator[pywikibot.Page, None, None]:
     SITE = pywikibot.Site("en", "wiktionary")
@@ -16,30 +16,45 @@ def get_yomi_pages() -> Generator[pywikibot.Page, None, None]:
     return pywikibot.Page(SITE, JA_YOMI_TRACKING_PAGE, ns=TEMPLATE_NAMESPACE).getReferences(only_template_inclusion=True, namespaces=[MAIN_NAMESPACE])
 
 
-# The way the pattern works is by forming two capture groups, one on either side of the regex matching for the yomi
-# parameter, e.g. ({{ja-pron)  |yomi=k  (|おんせい}})
-# (the yomi is separated here for demonstration purposes, otherwise it is contiguous with the other parameters.)
-# The two bracketed text portions you see then substitute the original template, in effect replacing it
-# with all of its contents, minus the original yomi (or y) argument.
+# Use mwparserfromhell to filter all the templates, select the ja-pron ones, and remove any "y" or "yomi"
+# arguments they might have.
 def remove_yomi_from_page(page: pywikibot.Page) -> None:
     """
     Given a page on en.wiktionary, it removes any occurrences of `|y=` or `|yomi=`
     from the source within {{ja-pron}} templates.
     """
     text = page.text
-    new_text = REMOVE_YOMI_PATTERN.sub(r"\1\2", text)
-    page.text = new_text
+    parsed = mwparserfromhell.parse(text)
+    for template in parsed.ifilter(forcetype=Template, recursive=False):
+        template: Template
+        if template.name != "ja-pron":
+            continue
 
+        if template.has("y"):
+            template.remove("y")
+        if template.has("yomi"):
+            template.remove("yomi")
 
-def backup_page(page: pywikibot.Page) -> None:
+    new_text = str(parsed)
+    return new_text
+
+def create_diff(old_text: str, current_page: pywikibot.Page) -> None:
     """
     Copy the contents of the page to local storage for backup in case there is a problem
     with the script later; this will allow the error to be automatically corrected at that time.
     """
     os.makedirs(BACKUP_PATH, exist_ok=True)
-    with open(os.path.join(BACKUP_PATH, page.title()), mode="w", encoding="utf-8") as f:
-        f.write(page.text)
+    with open("temp1", mode="w", encoding="utf-8") as f:
+        f.write(old_text)
 
+    with open("temp2", mode="w", encoding="utf-8") as f:
+        f.write(current_page.text)
+
+    diff = subprocess.getoutput("diff -u temp2 temp1") # Get differences between new revision and previous
+    diff = diff + "\n" # patch will complain if we don't end the file with a newline
+
+    with open(os.path.join(BACKUP_PATH, current_page.title()), mode="w", encoding="utf-8") as f:
+        f.write(diff)
 
 def template_argument_counts_accord(previous_text: str, current_text: str) -> bool:
     """
@@ -50,14 +65,16 @@ def template_argument_counts_accord(previous_text: str, current_text: str) -> bo
     Of course, this is because the new text should not have `y=` or `yomi=` in it,
     so the number of arguments should be exactly one less once this has been removed.
     """
-    for previous_pron, current_pron in zip(JA_PRON_PATTERN.finditer(previous_text), JA_PRON_PATTERN.finditer(current_text)):
-        prev_pr_text = previous_pron.group(0)
-        curr_pr_text = current_pron.group(0)
-        previous_arg_count = prev_pr_text.count("|")
-        current_arg_count = curr_pr_text.count("|")
-        if current_arg_count != previous_arg_count - 1:
-            print(previous_arg_count, current_arg_count)
+    for previous_pron, current_pron in zip(mwparserfromhell.parse(previous_text).filter(forcetype=Template, recursive=False), mwparserfromhell.parse(current_text).filter(forcetype=Template, recursive=False)):
+        previous_pron: Template
+        current_pron: Template
+        
+        if previous_pron.name != "ja-pron" or current_pron.name != "ja-pron":
+            continue
+
+        if len(current_pron.params) != len(previous_pron.params) - 1:
             return False
+
     return True
 
 def main():
@@ -73,10 +90,10 @@ def main():
             return
 
         original_text = page.text
-        print(f"Backing up {page.title()}...")
-        backup_page(page)
         print(f"Removing yomi from {page.title()}...")
-        remove_yomi_from_page(page)
+        page.text = remove_yomi_from_page(page)
+        print(f"Backing up {page.title()}...")
+        create_diff(original_text, page)
         assert template_argument_counts_accord(original_text, page.text)
         page.save("Removed deprecated yomi/y parameters from {{ja-pron}} (automated task)", minor=True, botflag=True)
 

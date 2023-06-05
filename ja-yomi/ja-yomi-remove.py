@@ -8,9 +8,9 @@ from restore_pages import BACKUP_PATH
 
 
 JA_YOMI_TRACKING_PAGE = "tracking/ja-pron/yomi"
+SITE = pywikibot.Site("en", "wiktionary")
 
 def get_yomi_pages() -> Generator[pywikibot.Page, None, None]:
-    SITE = pywikibot.Site("en", "wiktionary")
     TEMPLATE_NAMESPACE = SITE.namespaces.TEMPLATE
     MAIN_NAMESPACE = SITE.namespaces.MAIN
     return pywikibot.Page(SITE, JA_YOMI_TRACKING_PAGE, ns=TEMPLATE_NAMESPACE).getReferences(only_template_inclusion=True, namespaces=[MAIN_NAMESPACE])
@@ -88,6 +88,11 @@ def main():
     for edit_count, page in enumerate(get_yomi_pages()):
         if edit_count == LIMIT:
             return
+        if edit_count % 5 == 0:
+            halt_page = pywikibot.Page(SITE, "User:KovachevBot/halt")
+            if "halt" in halt_page.text.casefold():
+                print(f"ERROR: BOT WAS MANUALLY HALTED BY {halt_page.userName()}")
+                return
 
         original_text = page.text
         print(f"Removing yomi from {page.title()}...")
@@ -96,6 +101,7 @@ def main():
         create_diff(original_text, page)
         assert template_argument_counts_accord(original_text, page.text)
         page.save("Removed deprecated yomi/y parameters from {{ja-pron}} (automated task)", minor=True, botflag=True)
+
 
 
 if __name__ == "__main__":

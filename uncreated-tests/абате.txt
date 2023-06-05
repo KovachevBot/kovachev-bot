@@ -1,9 +1,0 @@
-==Bulgarian==
-
-===Pronunciation===
-* {{bg-IPA|аба́те}}
-
-===Noun===
-{{head|bg|noun form|head=аба́те}}
-
-# {{inflection of|bg|аба́т||voc|s}}

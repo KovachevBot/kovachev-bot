@@ -43,6 +43,7 @@ def update_page(title: str):
     if there_are_duplicate_readings(ja_prons, title):
         raise ValueError(f"ERROR, there are multiple indistinguishable terms on this page {title} with the same reading")
 
+    accent_added = False
     for template in ja_prons:
         template: mwparserfromhell.wikicode.Template
 
@@ -60,13 +61,20 @@ def update_page(title: str):
         
             template.add(acc_param, accent)
             template.add(acc_ref_param, "DJR")
+            accent_added = True
 
-    if "===References===" not in japanese_section:
+    # Only add references if we have actually added any accents to the page
+    if accent_added and "===References===" not in japanese_section:
         japanese_section.append("\n\n===References===\n<references />\n\n")
 
+    previous_text = page.text
     page.text = str(parsed)
     while "\n\n\n" in page.text:
         page.text = page.text.replace("\n\n\n", "\n\n")
+
+    if page.text == previous_text:
+        print("Content was identical, exiting...")
+        return
 
     print(str(mwparserfromhell.parse(page.text).get_sections([2], "Japanese")[0]), "Is this text acceptable? (y/n)", sep="\n")
 
@@ -86,11 +94,17 @@ def get_accentless_pages() -> Generator[pywikibot.Page, None, None]:
 
 def iterate_pages(blacklist: set):
     for page in get_accentless_pages():
+        title = page.title()
+        if title in blacklist:
+            print(f"Skipping page {title}")
+            continue
+
         try:
-            update_page(page)
+            print(f"Updating pitch accents for page {title}")
+            update_page(title)
         except Exception as e:
-            title = page.title()
             print(f"Unable to update {title} due to error: {e}", file=sys.stderr)
+            print(f"Adding {title} to blacklist")
             blacklist.add(title)
 
 def main():
@@ -102,12 +116,14 @@ def main():
     
     # update_page("碧玉")
     # update_page("パイプカット")
+    # update_page("火手")
+    # update_page("AA")
 
     try:
-        iterate_pages()
+        iterate_pages(blacklist)
     finally:
         with open(BLACKLIST, mode="w") as f:
-            f.writelines(blacklist)
+            f.write("\n".join(blacklist))
 
 if __name__ == "__main__":
     main()

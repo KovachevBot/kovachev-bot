@@ -1,3 +1,4 @@
+import sys
 import pywikibot
 import mwparserfromhell
 from typing import Generator
@@ -54,9 +55,8 @@ def update_page(title: str):
             acc_ref_param = f"{acc_param}_ref"
         
             if template.has(acc_param) or template.has(acc_ref_param):
+                print("Template already has accent information, continuing", file=sys.stderr)
                 break
-                # print("ERROR, template already has accent information")
-                # return SuccessCode.FAILURE
         
             template.add(acc_param, accent)
             template.add(acc_ref_param, "DJR")
@@ -66,7 +66,6 @@ def update_page(title: str):
 
     page.text = str(parsed)
     while "\n\n\n" in page.text:
-        print("deez")
         page.text = page.text.replace("\n\n\n", "\n\n")
 
     print(str(mwparserfromhell.parse(page.text).get_sections([2], "Japanese")[0]), "Is this text acceptable? (y/n)", sep="\n")
@@ -78,19 +77,21 @@ def update_page(title: str):
             valid = True
 
     if answer == "y":
-        page.save("Added accents to page", minor=False)
+        page.save("Added pitch accents from Daijirin to Japanese", minor=False)
 
 def get_accentless_pages() -> Generator[pywikibot.Page, None, None]:
     TEMPLATE_NAMESPACE = SITE.namespaces.TEMPLATE
     MAIN_NAMESPACE = SITE.namespaces.MAIN
     return pywikibot.Page(SITE, NO_ACC_TRACKING_PAGE, ns=TEMPLATE_NAMESPACE).getReferences(only_template_inclusion=True, namespaces=[MAIN_NAMESPACE])
 
-def iterate_pages():
+def iterate_pages(blacklist: set):
     for page in get_accentless_pages():
         try:
             update_page(page)
         except Exception as e:
-            print(f"Unable to update {page.title()} due to error: {e}")
+            title = page.title()
+            print(f"Unable to update {title} due to error: {e}", file=sys.stderr)
+            blacklist.add(title)
 
 def main():
     try:

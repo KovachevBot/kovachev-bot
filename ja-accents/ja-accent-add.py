@@ -104,7 +104,7 @@ def main():
 
     try:
         iterate_pages()
-    except:
+    finally:
         with open(BLACKLIST, mode="w") as f:
             f.writelines(blacklist)
 

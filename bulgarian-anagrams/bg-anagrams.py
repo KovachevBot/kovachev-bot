@@ -1,8 +1,10 @@
+import os
+import subprocess
 import sys
 import pywikibot
 import mwparserfromhell
 import regex as re
-from collections import Counter, defaultdict
+from collections import defaultdict
 
 # From User:JeffDoozan's bot AutoDooz
 CAT_TEMPLATES = [ "c", "C", "cat", "top", "topic", "topics", "categorize", "catlangname", "catlangcode", "cln", "zh-cat",
@@ -11,9 +13,33 @@ RE_CAT_TEMPLATES = r"\{\{\s*(" + "|".join(CAT_TEMPLATES) + r")\s*[|}][^{}]*\}*"
 RE_CATEGORIES = r"\[\[\s*[cC]at(egory)?\s*:[^\]]*\]\]"
 RE_MATCH_CATEGORIES = re.compile(fr"({RE_CAT_TEMPLATES}|{RE_CATEGORIES})")
 SITE = pywikibot.Site("en", "wiktionary")
+BACKUP_PATH = "bg-anagrams-backup"
+ALPHABET = "абвгдежзийклмнопрстуфхцчшщъьюя"
+NON_ALPHABETIC = f"[^{ALPHABET}]"
+
+def create_diff(old_text: str, current_page: pywikibot.Page) -> None:
+    """
+    Copy the contents of the page to local storage for backup in case there is a problem
+    with the script later; this will allow the error to be automatically corrected at that time.
+    """
+    os.makedirs(BACKUP_PATH, exist_ok=True)
+    with open("temp1", mode="w", encoding="utf-8") as f:
+        f.write(old_text)
+
+    with open("temp2", mode="w", encoding="utf-8") as f:
+        f.write(current_page.text)
+
+    diff = subprocess.getoutput("diff -u temp2 temp1") # Get differences between new revision and previous
+    diff = diff + "\n" # patch will complain if we don't end the file with a newline
+
+    with open(os.path.join(BACKUP_PATH, current_page.title()), mode="w", encoding="utf-8") as f:
+        f.write(diff)
+
+def normalise(word: str) -> str:
+    return re.sub(NON_ALPHABETIC, "", re.sub("\s", "", word.strip().casefold()))
 
 def get_alphagram(word: str) -> str:
-    return "".join(sorted(word.strip()))
+    return "".join(sorted(normalise(word)))
 
 def has_bulgarian(page: pywikibot.Page) -> bool:
     return bool(mwparserfromhell.parse(page.text).get_sections([2], "Bulgarian"))
@@ -76,13 +102,15 @@ def add_anagrams(contents: str, anagrams_to_add: set[str], alphagram):
 
     return str(parsed)
 
-def update_page(title: str, counted: list[tuple[str, int]]) -> bool:
+def update_page(title: str, alphagram: str) -> bool:
     """Update a page with its anagrams. Returns whether changes were made."""
     page = pywikibot.Page(SITE, title)
+
+    create_diff(page.text, page)
     
     if has_bulgarian(page):
-        anagrams_to_add = anagrams[counted] - {title}
-        new_content = add_anagrams(page.text, anagrams_to_add, counted)
+        anagrams_to_add = anagrams[alphagram] - {title}
+        new_content = add_anagrams(page.text, anagrams_to_add, alphagram)
         new_content = re.sub("\n{3,}", "\n\n", new_content)
 
         if new_content == page.text:
@@ -103,6 +131,8 @@ def main():
         LIMIT = int(pywikibot.argvu[1])
     except:
         LIMIT = -1
+
+    print("Preparing to iterate over", len(anagrams), "alphragrams")
 
     edit_count = 0  # Updated for every individual page
     iterations = 0  # Updated for every set of anagrams

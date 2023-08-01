@@ -78,7 +78,7 @@ def add_anagrams(contents: str, anagrams_to_add: set[str], alphagram):
             existing.add(str(anagrams_template.get(i)))
             i += 1
 
-        if existing == anagrams_to_add:
+        if existing.union(anagrams_to_add) == existing:  # If there are no new anagrams present
             return contents
         
         anagrams_to_add = anagrams_to_add.union(existing)

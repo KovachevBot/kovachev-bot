@@ -15,7 +15,8 @@ RE_MATCH_CATEGORIES = re.compile(fr"({RE_CAT_TEMPLATES}|{RE_CATEGORIES})")
 SITE = pywikibot.Site("en", "wiktionary")
 BACKUP_PATH = "bg-anagrams-backup"
 ALPHABET = "абвгдежзийклмнопрстуфхцчшщъьюя"
-NON_ALPHABETIC = f"[^{ALPHABET}]"
+NUMERIC = "0123456789"
+NON_ALPHANUMERIC = f"[^{ALPHABET}{NUMERIC}]"
 
 def create_diff(old_text: str, current_page: pywikibot.Page) -> None:
     """
@@ -36,7 +37,8 @@ def create_diff(old_text: str, current_page: pywikibot.Page) -> None:
         f.write(diff)
 
 def normalise(word: str) -> str:
-    return re.sub(NON_ALPHABETIC, "", re.sub("\s", "", word.strip().casefold()))
+    return re.sub(NON_ALPHANUMERIC, "", re.sub("ѝ", "и", word.casefold()))
+    # return re.sub("[-.;:?!‒–—]", "", re.sub("\s", "", word.casefold()))
 
 def get_alphagram(word: str) -> str:
     return "".join(sorted(normalise(word)))
@@ -53,6 +55,9 @@ for word in wordlist:
     anagrams[get_alphagram(word)].add(word.strip())
 
 anagrams = {letter_count: anas for letter_count, anas in anagrams.items() if len(anas) > 1} # Only keep words with multiple anagrams
+
+def count_anagrams():
+    return sum(len(anagram_list) for anagram_list in anagrams.values())
 
 def generate_anagrams_section(anagrams: set[str]) -> str:
     return "\n\n===Anagrams===\n* " + generate_anagrams_template(anagrams, get_alphagram(anagrams.copy().pop())) + "\n\n"
@@ -132,7 +137,9 @@ def main():
     except:
         LIMIT = -1
 
-    print("Preparing to iterate over", len(anagrams), "alphragrams")
+    print(anagrams["и"])
+    print("Preparing to iterate over", len(anagrams), "alphragrams", f"({count_anagrams()} anagrams)")
+    return
 
     edit_count = 0  # Updated for every individual page
     iterations = 0  # Updated for every set of anagrams

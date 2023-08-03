@@ -156,7 +156,7 @@ def update_page(title: str, alphagram: str) -> bool:
 
     create_diff(page.text, page)
     
-    anagrams_to_add = anagrams[alphagram] - {title}
+    anagrams_to_add = anagrams[alphagram] - {title} - {ana for ana in anagrams[alphagram] if normalise(ana) == normalise(title)}
     new_content, added_anagrams = add_anagrams(page.text, anagrams_to_add, alphagram)
     new_content = re.sub("\n{3,}", "\n\n", new_content)
 
@@ -165,7 +165,7 @@ def update_page(title: str, alphagram: str) -> bool:
         return False
     else:
         page.text = new_content
-        plural_s = "s" if len(anagrams_to_add) > 1 else ""
+        plural_s = "s" if len(added_anagrams) > 1 else ""
         exist_other_sections = len(mwparserfromhell.parse(page.text).get_sections([2])) > 1
         page.save(f"Added anagram{plural_s} ({', '.join(added_anagrams)}){' to English section' if exist_other_sections else ''}", minor=False)
         return True

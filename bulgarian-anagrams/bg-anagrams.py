@@ -17,6 +17,7 @@ BACKUP_PATH = "bg-anagrams-backup"
 ALPHABET = "абвгдежзийклмнопрстуфхцчшщъьюя"
 NUMERIC = "0123456789"
 NON_ALPHANUMERIC = f"[^{ALPHABET}{NUMERIC}]"
+NOT_CREATED_LOG = "non_existent_anagrams.txt"
 
 def create_diff(old_text: str, current_page: pywikibot.Page) -> None:
     """
@@ -46,6 +47,8 @@ def get_alphagram(word: str) -> str:
 def has_bulgarian(page: pywikibot.Page) -> bool:
     return bool(mwparserfromhell.parse(page.text).get_sections([2], "Bulgarian"))
 
+
+# Calculate all anagrams from the file of words
 with open("words.txt") as f:
     wordlist: list[str] = f.readlines()
 
@@ -53,6 +56,8 @@ anagrams = defaultdict(set)
 
 for word in wordlist:
     anagrams[get_alphagram(word)].add(word.strip())
+
+# ---------------------------------------------
 
 anagrams = {letter_count: anas for letter_count, anas in anagrams.items() if len(anas) > 1} # Only keep words with multiple anagrams
 
@@ -67,6 +72,9 @@ def generate_anagrams_template(anagrams: set[str], alphagram: str) -> str:
 
 def add_anagrams(contents: str, anagrams_to_add: set[str], alphagram):
     parsed = mwparserfromhell.parse(contents)
+
+    anagrams_added = anagrams_to_add.copy()
+
     bulgarian_section: mwparserfromhell.wikicode.Wikicode = parsed.get_sections([2], "Bulgarian")[0]
     anagrams_section: mwparserfromhell.wikicode.Wikicode = bulgarian_section.get_sections([3], "Anagrams")
     if anagrams_section:
@@ -74,7 +82,7 @@ def add_anagrams(contents: str, anagrams_to_add: set[str], alphagram):
         anagrams_templates = anagrams_section.filter(forcetype=mwparserfromhell.wikicode.Template)
         anagrams_templates = [t for t in anagrams_templates if t.name == "anagrams"]
         if len(anagrams_templates) == 0:
-            return contents
+            return contents, set()
     
         existing = set()
         anagrams_template = anagrams_templates[0]
@@ -84,11 +92,13 @@ def add_anagrams(contents: str, anagrams_to_add: set[str], alphagram):
             i += 1
 
         if existing.union(anagrams_to_add) == existing:  # If there are no new anagrams present
-            return contents
+            return contents, set()
         
         anagrams_to_add = anagrams_to_add.union(existing)
 
         anagrams_section.nodes[anagrams_section.index(anagrams_template)] = generate_anagrams_template(anagrams_to_add, alphagram)
+
+        anagrams_added = anagrams_to_add.difference(existing)
     else:
         index = len(bulgarian_section.nodes)-1
         keep_going = True
@@ -105,9 +115,9 @@ def add_anagrams(contents: str, anagrams_to_add: set[str], alphagram):
 
         bulgarian_section.insert(index, generate_anagrams_section(anagrams_to_add))
 
-    return str(parsed)
+    return str(parsed), anagrams_added
 
-def update_page(title: str, alphagram: str) -> bool:
+def update_page(title: str, alphagram: str, uncreated: set[str]) -> bool:
     """Update a page with its anagrams. Returns whether changes were made."""
     page = pywikibot.Page(SITE, title)
 
@@ -115,31 +125,34 @@ def update_page(title: str, alphagram: str) -> bool:
     
     if has_bulgarian(page):
         anagrams_to_add = anagrams[alphagram] - {title}
-        new_content = add_anagrams(page.text, anagrams_to_add, alphagram)
+        new_content, anagrams_added = add_anagrams(page.text, anagrams_to_add, alphagram)
         new_content = re.sub("\n{3,}", "\n\n", new_content)
+
+        for anagram in anagrams_to_add:
+            other_page = pywikibot.Page(SITE, anagram)
+            if not has_bulgarian(other_page):
+                uncreated.add(f"{anagram}\n")
 
         if new_content == page.text:
             print(f"Did nothing on page {title} as there are already anagrams present", file=sys.stderr)
             return False
         else:
             page.text = new_content
-            plural_s = "s" if len(anagrams_to_add) > 1 else ""
-            page.save(f"Added anagram{plural_s} ({', '.join(anagrams_to_add)}) to Bulgarian section", minor=False)
+            plural_s = "s" if len(anagrams_added) > 1 else ""
+            page.save(f"Added anagram{plural_s} ({', '.join(anagrams_added)}) to Bulgarian section", minor=False)
             return True
     else:
         print(f"Skipping page {title}, as it does not exist or has no Bulgarian content", file=sys.stderr)
     
     return False
 
-def main():
+def main(uncreated: set[str]):
     try:
         LIMIT = int(pywikibot.argvu[1])
     except:
         LIMIT = -1
 
-    print(anagrams["и"])
     print("Preparing to iterate over", len(anagrams), "alphragrams", f"({count_anagrams()} anagrams)")
-    return
 
     edit_count = 0  # Updated for every individual page
     iterations = 0  # Updated for every set of anagrams
@@ -155,9 +168,20 @@ def main():
             if edit_count == LIMIT:
                 return
 
-            edit_count += int(update_page(anagram, alphagram))  # If a change was made, increase the edit count
+            edit_count += int(update_page(anagram, alphagram, uncreated))  # If a change was made, increase the edit count
 
         iterations += 1
 
 if __name__ == "__main__":
-    main()
+    uncreated = set()
+    try:
+        with open(NOT_CREATED_LOG) as f:
+            uncreated = set(f.readlines())
+    except FileNotFoundError:
+        with open(NOT_CREATED_LOG, "w") as f:
+            pass
+    try:
+        main(uncreated)
+    finally:
+        with open(NOT_CREATED_LOG, "w") as f:
+            f.writelines(uncreated)

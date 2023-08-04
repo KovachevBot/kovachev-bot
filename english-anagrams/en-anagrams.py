@@ -16,17 +16,15 @@ RE_CATEGORIES = r"\[\[\s*[cC]at(egory)?\s*:[^\]]*\]\]"
 RE_MATCH_CATEGORIES = re.compile(fr"({RE_CAT_TEMPLATES}|{RE_CATEGORIES})")
 SITE = pywikibot.Site("en", "wiktionary")
 BACKUP_PATH = "en-anagrams-backup"
-ALPHABET = "abcdefghijklmnopqrstuvwxyz"
-NUMERIC = "0123456789"
-MISCELLANEOUS = "βðπø" # These characters are lexically significant, i.e. there may be multiple anagrams that have them
+DIACRITICS = f"{chr(0x0300)}-{chr(0x036F)}"
+PUNCTUATION = r"’'\(\)\[\]\{\}<>:,‒–—―…!.«»-‐?‘’“”;/⁄␠·&@\*\•^¤¢$€£¥₩₪†‡°¡¿¬#№%‰‱¶′§~¨_|¦⁂☞∴‽※" + f"{chr(0x2000)}-{chr(0x206F)}"
+REDUNDANT_CHARS = f"[{DIACRITICS}{PUNCTUATION}]"
 
 CONVERSIONS = {
     "æ": "ae",
     "œ": "oe",
     "ı": "i",
 }
-
-NON_ALPHANUMERIC = f"[^{ALPHABET}{NUMERIC}{MISCELLANEOUS}]" # Use this pattern to remove all characters that don't distinguish an anagram
 
 def create_diff(old_text: str, current_page: pywikibot.Page) -> None:
     """
@@ -52,14 +50,14 @@ def normalise(word: str) -> str:
         - Remove all whitespace at the start and end.
         - Decompose all characters to their simplest, e.g. é becomes e + ACUTE
         - Convert to lowercase (casefold)
-        - Remove all irrelevant elements (non-alphanumeric characters).
+        - Remove all irrelevant elements (punctuation, diacritics).
     """
     word = word.strip().casefold()
 
     for source_char, replacement in CONVERSIONS.items():
         word = word.replace(source_char, replacement)
 
-    word = re.sub(NON_ALPHANUMERIC, "", unicodedata.normalize("NFKD", word.strip()).casefold())
+    word = re.sub(REDUNDANT_CHARS, "", unicodedata.normalize("NFKD", word.strip()).casefold())
     return word
 
 def get_alphagram(word: str) -> str:
@@ -81,6 +79,9 @@ anagrams = {letter_count: anas for letter_count, anas in anagrams.items() if len
 
 def count_anagrams():
     return sum(len(anagram_list) for anagram_list in anagrams.values())
+
+def get_anagrams(word: str, alphagram: str) -> set[str]:
+    return anagrams[alphagram] - {word} - {ana for ana in anagrams[alphagram] if normalise(ana) == normalise(word)}
 
 def generate_anagrams_section(anagrams: set[str]) -> str:
     return "\n\n===Anagrams===\n* " + generate_anagrams_template(anagrams, get_alphagram(anagrams.copy().pop())) + "\n\n"
@@ -156,7 +157,7 @@ def update_page(title: str, alphagram: str) -> bool:
 
     create_diff(page.text, page)
     
-    anagrams_to_add = anagrams[alphagram] - {title} - {ana for ana in anagrams[alphagram] if normalise(ana) == normalise(title)}
+    anagrams_to_add = get_anagrams(title, alphagram)
     new_content, added_anagrams = add_anagrams(page.text, anagrams_to_add, alphagram)
     new_content = re.sub("\n{3,}", "\n\n", new_content)
 

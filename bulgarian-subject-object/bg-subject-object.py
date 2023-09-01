@@ -15,6 +15,7 @@ def main() -> None:
     with open("words-to-edit.txt") as f:
         words_to_fix = f.read().splitlines()
     
+    i = 0
     for page in kovachevbot.iterate_safe((kovachevbot.wikt_page(word) for word in words_to_fix)):
         page: pywikibot.Page
         title = page.title()
@@ -30,6 +31,10 @@ def main() -> None:
 
         page.text = str(parsed)
         page.save("Convert sbjv/objv into sbj/obj in Bulgarian inflections")
+        i += 1
+    
+    with open("words-to-edit.txt", mode="w") as f:
+        f.write("\n".join(words_to_fix[i:]))
 
 if __name__ == "__main__":
     main()

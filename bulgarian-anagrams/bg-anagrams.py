@@ -139,6 +139,10 @@ def update_page(title: str, alphagram: str, uncreated: set[str]) -> bool:
         else:
             page.text = new_content
             plural_s = "s" if len(anagrams_added) > 1 else ""
+            if len(anagrams_added) == 0:
+                print("Nothing was added, but the content was changed! (not saved)")
+                return False
+
             page.save(f"Added anagram{plural_s} ({', '.join(anagrams_added)}) to Bulgarian section", minor=False)
             return True
     else:
@@ -172,16 +176,49 @@ def main(uncreated: set[str]):
 
         iterations += 1
 
+def there_are_erroneous_anagrams(original, anagrams: set[str]) -> bool:
+    for anagram in anagrams:
+        if anagram == original: continue
+        if normalise(anagram) == normalise(original):
+            return True
+    return False
+
+def find_erroneous_anagrams():
+    errors = []
+    for anagram_list in anagrams.values():
+        for anagram in anagram_list:
+            page = pywikibot.Page(SITE, anagram)
+            
+            if not page.exists(): continue
+            if not has_bulgarian(page): continue
+
+            print("Traversing page", anagram + "...")
+
+            for template in mwparserfromhell.parse(page.text).filter(forcetype=mwparserfromhell.wikicode.Template):
+                template: mwparserfromhell.wikicode.Template
+                if template.name != "anagrams": continue
+                if not template.has_param(1): continue
+                if template.get(1) != "bg": continue
+
+                if there_are_erroneous_anagrams(anagram, template.params[2:]):
+                    print("Found erroneous anagrams: ", template.params[2:])
+                    errors.append(anagram)
+                    break
+
+    with open("dubious_anagrams.txt", mode="w") as f:
+        f.write("\n".join(errors))
+
 if __name__ == "__main__":
-    uncreated = set()
-    try:
-        with open(NOT_CREATED_LOG) as f:
-            uncreated = set(f.readlines())
-    except FileNotFoundError:
-        with open(NOT_CREATED_LOG, "w") as f:
-            pass
-    try:
-        main(uncreated)
-    finally:
-        with open(NOT_CREATED_LOG, "w") as f:
-            f.writelines(uncreated)
+    # uncreated = set()
+    # try:
+    #     with open(NOT_CREATED_LOG) as f:
+    #         uncreated = set(f.readlines())
+    # except FileNotFoundError:
+    #     with open(NOT_CREATED_LOG, "w") as f:
+    #         pass
+    # try:
+    #     main(uncreated)
+    # finally:
+    #     with open(NOT_CREATED_LOG, "w") as f:
+    #         f.writelines(uncreated)
+    find_erroneous_anagrams()

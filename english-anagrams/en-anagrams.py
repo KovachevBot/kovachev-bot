@@ -6,6 +6,7 @@ import pywikibot
 import mwparserfromhell
 import unicodedata
 import regex as re
+import random
 from collections import defaultdict
 
 # From User:JeffDoozan's bot AutoDooz
@@ -17,8 +18,8 @@ RE_MATCH_CATEGORIES = re.compile(fr"({RE_CAT_TEMPLATES}|{RE_CATEGORIES})")
 SITE = pywikibot.Site("en", "wiktionary")
 BACKUP_PATH = "en-anagrams-backup"
 DIACRITICS = f"{chr(0x0300)}-{chr(0x036F)}"
-PUNCTUATION = r"’'\(\)\[\]\{\}<>:,‒–—―…!.«»-‐?‘’“”;/⁄␠·&@\*\•^¤¢$€£¥₩₪†‡°¡¿¬#№%‰‱¶′§~¨_|¦⁂☞∴‽※" + f"{chr(0x2000)}-{chr(0x206F)}"
-REDUNDANT_CHARS = f"[{DIACRITICS}{PUNCTUATION}]"
+PUNCTUATION = r"’'()\[\]{}<>:,‒–—―…!.«»\-‐?‘’“”;/⁄␠·&@*\\•^¤¢$€£¥₩₪†‡°¡¿¬#№%‰‱¶′§~¨_|¦⁂☞∴‽※" + f"{chr(0x2000)}-{chr(0x206F)}"
+REDUNDANT_CHARS = f"[{DIACRITICS}{PUNCTUATION} ]"
 
 CONVERSIONS = {
     "æ": "ae",
@@ -52,7 +53,7 @@ def normalise(word: str) -> str:
         - Convert to lowercase (casefold)
         - Remove all irrelevant elements (punctuation, diacritics).
     """
-    word = word.strip().casefold()
+    word = word.casefold()
 
     for source_char, replacement in CONVERSIONS.items():
         word = word.replace(source_char, replacement)
@@ -178,6 +179,9 @@ def main():
         LIMIT = -1
 
     print("Preparing to iterate over", len(anagrams), "alphragrams", f"({count_anagrams()} anagrams)")
+    for anagram_list in anagrams.values():
+        if random.randint(1, 1000) == 50:
+            print(anagram_list)
 
     edit_count = 0  # Updated for every individual page
     iterations = 0  # Updated for every set of anagrams

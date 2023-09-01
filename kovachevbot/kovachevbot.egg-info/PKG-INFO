@@ -1,0 +1,8 @@
+Metadata-Version: 2.1
+Name: kovachevbot
+Version: 0.1
+Summary: Library of generic functions and constants used in my bot scripts
+Home-page: https://www.kovachev.xyz
+Author: Kiril Kovachev
+Author-email: kkovachev1947@gmail.com
+License: MIT

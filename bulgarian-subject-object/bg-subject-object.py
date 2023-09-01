@@ -15,7 +15,7 @@ def main() -> None:
     with open("words-to-edit.txt") as f:
         words_to_fix = f.read().splitlines()
     
-    for page in kovachevbot.iterate_safe((kovachevbot.wikt_page(word) for word in words_to_fix), max_entries=1):
+    for page in kovachevbot.iterate_safe((kovachevbot.wikt_page(word) for word in words_to_fix)):
         page: pywikibot.Page
         title = page.title()
         parsed = mwparserfromhell.parse(page.text)

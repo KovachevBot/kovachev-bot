@@ -25,7 +25,7 @@ def main() -> None:
         except IndexError:
             print(f"Error: page {title} has no Bulgarian content", file=sys.stderr)
         
-        for inflection_template in bulgarian_section.filter(forcetype=mwparserfromhell.wikicode.Template, matches="{{inflection of|bg|.*?}}"):
+        for inflection_template in bulgarian_section.filter(forcetype=mwparserfromhell.wikicode.Template, matches=r"{{infl(?:ection)? of\|bg\|.*?}}"):
             inflection_template: mwparserfromhell.wikicode.Template
             fix_inflection(inflection_template)
 

@@ -4,6 +4,9 @@ import mwparserfromhell
 import sys
 
 def fix_inflection(template: mwparserfromhell.wikicode.Template):
+    if template.name not in ("inflection of", "infl of"):
+        print("Somehow encountered invalid template:", template.name)
+
     for param in template.params:
         param: mwparserfromhell.nodes.extras.Parameter
         if param.value == "sbjv":

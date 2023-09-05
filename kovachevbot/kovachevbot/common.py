@@ -73,7 +73,7 @@ def links_to_plaintext(text: str) -> str:
 
     return str(parsed)
 
-ABORT_CHECK_INTERVAL = 5
+ABORT_CHECK_INTERVAL = 15
 HALT_PAGE = wikt_page("User:KovachevBot/halt")  # Do not edit, please!
 
 def iterate_with_abort_check(iterator: Iterator, interval: int = ABORT_CHECK_INTERVAL, halt_page = HALT_PAGE):
@@ -84,7 +84,7 @@ def iterate_with_abort_check(iterator: Iterator, interval: int = ABORT_CHECK_INT
     for edit_count, value in enumerate(iterator):
         # Check halt page
         if edit_count % interval == 0:
-            if "halt" in halt_page.text.casefold():
+            if "halt" in halt_page.get(force=True).casefold():
                 print(f"ERROR: BOT WAS MANUALLY HALTED BY {halt_page.userName()}", file=sys.stderr)
                 return
         yield value

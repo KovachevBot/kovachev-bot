@@ -90,6 +90,9 @@ class PageEditStatus(Enum):
     NOTHING_TO_ADD = 1
     CANNOT_ADD = 2
 
+def is_bg_ipa(node) -> bool:
+    return isinstance(node, mwparserfromhell.wikicode.Template) and node.name == "bg-IPA"
+
 def visit_page(page_name: str, audio_file_name: str) -> bool:
     p = pywikibot.Page(SITE, page_name)
     parsed = mwparserfromhell.parse(p.text)
@@ -166,14 +169,21 @@ def visit_page(page_name: str, audio_file_name: str) -> bool:
 
 
         return PageEditStatus.SUCCESS
-    
+
     # pyperclip.copy(get_audio_template_from_file_name(audio_file_name))
     # webbrowser.open_new_tab(get_wikitonary_edit_url(page_name, sections))
     edit_status = should_edit()
     if edit_status is PageEditStatus.SUCCESS:
+        i = 0
+        pron_section: mwparserfromhell.wikicode.Wikicode = pronunciation_subsections[0]
+        
+        templates: list[mwparserfromhell.wikicode.Template] = pron_section.filter_templates()
+        TO_INSERT = "\n" + get_audio_template_from_file_name(audio_file_name)
 
-        pronunciation_subsections[0].nodes[-1] = pronunciation_subsections[0].nodes[-1].replace("\n\n", "\n")
-        pronunciation_subsections[0].append(get_audio_template_from_file_name(audio_file_name) + "\n\n")
+        if is_bg_ipa(templates[0]):
+            pron_section.insert_after(templates[0], TO_INSERT)
+        else:
+            pron_section.insert(1, TO_INSERT)
 
         p.text = str(parsed)
         edit_summary += ("A" if edit_summary == "" else "a") + "dd audio from User:Kiril kovachev"

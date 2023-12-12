@@ -10,6 +10,10 @@ with open("verbal_nouns.json") as f:
 GRAVE = chr(0x300)
 ACUTE = chr(0x301)
 
+# Consume an iterator. For doing side effects using a generator expression in one line.
+def do(iter):
+    for _ in iter: pass
+
 def get_verbal_nouns(verb: str) -> str:
     return VERBAL_NOUNS[verb]
 
@@ -31,8 +35,8 @@ def fix_infl_template(template: mwparserfromhell.nodes.Template):
 
     if "vnoun" in template.params or "verbal noun" in template.params:
         if is_indef and is_singular:
-            [remove_positional_by_value(i) for i in indef]
-            [remove_positional_by_value(s) for s in singular]
+            do(remove_positional_by_value(i) for i in indef)
+            do(remove_positional_by_value(s) for s in singular)
         else:
             verb = str(template.get(2)).replace(GRAVE, "").replace(ACUTE, "")
             try:

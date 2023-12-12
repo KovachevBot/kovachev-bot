@@ -18,14 +18,21 @@ def fix_infl_template(template: mwparserfromhell.nodes.Template):
         return any(s in template.params for s in synonyms)
 
     def remove_positional_by_value(val):
-        template.remove([p for p in template.params if p == val][0])
+        try:
+            val = [p for p in template.params if p == val][0]
+            template.remove(val)
+        except:
+            pass
 
-    is_indef = has_inflection(["indefinite", "indef", "indf", "indefinite state"])
-    is_singular = has_inflection(["singular", "s", "sg"])
+    indef = ["indefinite", "indef", "indf", "indefinite state"]
+    singular = ["singular", "s", "sg"]
+    is_indef = has_inflection(indef)
+    is_singular = has_inflection(singular)
 
-    if "vnoun" in template.params:
+    if "vnoun" in template.params or "verbal noun" in template.params:
         if is_indef and is_singular:
-            remove_positional_by_value("vnoun")
+            [remove_positional_by_value(i) for i in indef]
+            [remove_positional_by_value(s) for s in singular]
         else:
             verb = str(template.get(2)).replace(GRAVE, "").replace(ACUTE, "")
             try:
@@ -33,6 +40,7 @@ def fix_infl_template(template: mwparserfromhell.nodes.Template):
                 if len(verbal_noun_list) > 1:
                     raise ValueError()
                 remove_positional_by_value("vnoun")
+                remove_positional_by_value("verbal noun")
                 template.params[1] = verbal_noun_list[0]
             except KeyError:
                 print(f"Verb {verb} has no verbal noun defined in the lookup table", file=sys.stderr)

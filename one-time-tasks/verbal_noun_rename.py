@@ -10,10 +10,6 @@ with open("verbal_nouns.json") as f:
 GRAVE = chr(0x300)
 ACUTE = chr(0x301)
 
-# Consume an iterator. For doing side effects using a generator expression in one line.
-def do(iter):
-    for _ in iter: pass
-
 def get_verbal_nouns(verb: str) -> str:
     return VERBAL_NOUNS[verb]
 
@@ -30,13 +26,18 @@ def fix_infl_template(template: mwparserfromhell.nodes.Template):
 
     indef = ["indefinite", "indef", "indf", "indefinite state"]
     singular = ["singular", "s", "sg"]
+    definite = ["definite", "def", "defn", "definite state"]
+    plural = ["plural", "p", "pl"]
     is_indef = has_inflection(indef)
     is_singular = has_inflection(singular)
+    is_def = has_inflection(definite)
+    is_plural = has_inflection(plural)
 
     if "vnoun" in template.params or "verbal noun" in template.params:
-        if is_indef and is_singular:
-            do(remove_positional_by_value(i) for i in indef)
-            do(remove_positional_by_value(s) for s in singular)
+        if is_indef and is_singular or not is_def and not is_plural:  # s|indef|vnoun or |vnoun by itself
+            for _ in range(len(template.params)-2):
+                del template.params[2] # Keep only the language code and the original verb form
+            template.name = "verbal noun of"
         else:
             verb = str(template.get(2)).replace(GRAVE, "").replace(ACUTE, "")
             try:
@@ -51,19 +52,25 @@ def fix_infl_template(template: mwparserfromhell.nodes.Template):
             except ValueError:
                 print(f"Verb {verb} has more than one possible verbal noun: {verbal_noun_list}", file=sys.stderr)
 
-for page in kovachevbot.iterate_safe(kovachevbot.iterate_category("Bulgarian non-lemma forms")):
-    page: pywikibot.Page
-    parsed = mwparserfromhell.parse(page.text)
+def main():
+    with open("verbal_noun_list.json") as f:
+        ENTRIES = json.load(f)
 
-    bulgarian = parsed.get_sections([2], "Bulgarian")[0]
-    for template in bulgarian.filter_templates():
-        template: mwparserfromhell.nodes.Template
+    for page in kovachevbot.iterate_safe(kovachevbot.pages_from_titles(ENTRIES)):
+        page: pywikibot.Page
+        parsed = mwparserfromhell.parse(page.text)
 
-        if template.name == "infl of" or template.name == "inflection of":
-            fix_infl_template(template)
-    
-    out = str(parsed)
-    if out != page.text:
-        page.text = out
-        page.save("Update verbal noun forms' {{infl of}} to point to the verbal noun / turn 'indefinite singular verbal noun' to 'verbal noun'")
-    
+        bulgarian = parsed.get_sections([2], "Bulgarian")[0]
+        for template in bulgarian.filter_templates():
+            template: mwparserfromhell.nodes.Template
+
+            if template.name == "infl of" or template.name == "inflection of":
+                fix_infl_template(template)
+        
+        out = str(parsed)
+        if out != page.text:
+            page.text = out
+            page.save("Update verbal noun forms' {{infl of}} to point to the verbal noun / use {{verbal noun of}}")
+
+if __name__ == "__main__":
+    main()
